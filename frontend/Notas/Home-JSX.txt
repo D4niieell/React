@@ -1,0 +1,73 @@
+Esse código é um componente React funcional chamado `Home`, que busca uma lista de livros de uma API e exibe cada um usando o componente `Card`. Vamos por partes:
+
+* Imports
+
+```jsx
+import Card from "../components/Card";
+import { useState, useEffect } from "react";
+```
+- `Card`: componente próprio que será usado para renderizar cada livro.
+- `useState` e `useEffect`: hooks do React para gerenciar estado e efeitos colaterais (como chamadas a APIs).
+
+* Estado
+
+```jsx
+const [livros, setLivros] = useState([]);
+```
+Cria uma variável de estado `livros`, inicializada como um array vazio, e uma função `setLivros` para atualizá-la.
+
+## Busca dos dados (useEffect)
+
+```jsx
+useEffect(() => {
+  const getLivros = async () => {
+    const res = await fetch("http://localhost:7808/books");
+    const data = await res.json();
+    setLivros(data);
+  };
+  getLivros();
+}, []);
+```
+- O `useEffect` com array de dependências vazio (`[]`) executa apenas **uma vez**, quando o componente é montado (equivalente ao `componentDidMount` de classes).
+- Dentro dele, é definida uma função assíncrona `getLivros` que:
+  1. Faz uma requisição GET para `http://localhost:7808/books` (uma API local, provavelmente um backend rodando na porta 7808).
+  2. Converte a resposta para JSON.
+  3. Atualiza o estado `livros` com os dados recebidos.
+- Note que o `useEffect` não pode ser `async` diretamente, por isso a função assíncrona é declarada dentro e chamada logo em seguida (`getLivros()`).
+
+* Tela de carregamento
+
+```jsx
+if (livros.length === 0) {
+  return <h1>Loading...</h1>;
+}
+```
+Enquanto `livros` estiver vazio (ou seja, antes da API responder), o componente exibe "Loading..." em vez do conteúdo principal.
+
+⚠️ Um detalhe: isso também vai mostrar "Loading..." se a API retornar uma lista vazia de fato (sem erro), o que pode ser um efeito colateral não intencional.
+
+* Renderização da lista
+
+```jsx
+return (
+  <div>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+      {livros.map((livro) => (
+        <Card key={livro.id_livro} livro={livro} />
+      ))}
+    </div>
+  </div>
+);
+```
+- Cria um container `div` com `display: flex` e `flexWrap: wrap`, fazendo os cartões se organizarem em uma grade responsiva, com espaçamento de 10px entre eles.
+- Usa `.map()` para percorrer o array `livros` e renderizar um componente `Card` para cada item.
+- `key={livro.id_livro}`: prop especial exigida pelo React para identificar cada elemento da lista de forma única (ajuda na performance de renderização).
+- `livro={livro}`: passa os dados de cada livro como prop para o componente `Card`, que deve ser responsável por exibi-los visualmente.
+
+* Resumo do fluxo
+1. Componente monta → estado vazio → mostra "Loading...".
+2. `useEffect` dispara a busca à API.
+3. Quando os dados chegam, `setLivros` atualiza o estado.
+4. O componente re-renderiza, e como `livros` não está mais vazio, exibe a lista de `Card`s.
+
+Se quiser, posso sugerir melhorias (tratamento de erros, loading mais robusto, etc.).

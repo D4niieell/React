@@ -1,0 +1,67 @@
+Claro! Vamos por partes.
+
+## Imports
+
+```jsx
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+```
+
+- `useNavigate`: hook do React Router que permite navegar programaticamente entre rotas (sem precisar de um `<Link>` clicado pelo usuário).
+- `useAuth`: um hook customizado, definido em outro arquivo (`AuthContext`), que provavelmente usa o Context API do React para compartilhar informações de autenticação (usuário logado, funções de login/logout, etc.) entre componentes.
+
+## Componente `Dashboard`
+
+```jsx
+export default function Dashboard() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+```
+
+- É um componente funcional exportado como padrão.
+- `useAuth()` retorna (pelo menos) dois valores do contexto de autenticação:
+  - `user`: objeto com dados do usuário logado (ex: `{ email: "..." }`).
+  - `logout`: função assíncrona que provavelmente limpa o token/sessão de autenticação.
+- `navigate` é a função retornada por `useNavigate`, usada para redirecionar o usuário.
+
+## Função de logout
+
+```jsx
+async function handleLogout() {
+  await logout();
+  navigate("/login", { replace: true });
+}
+```
+
+- É assíncrona porque `logout()` provavelmente faz uma chamada à API (ou limpa dados de forma assíncrona) — o `await` garante que a navegação só acontece **depois** que o logout for concluído.
+- `navigate("/login", { replace: true })` redireciona o usuário para a página de login.
+  - A opção `{ replace: true }` substitui a entrada atual no histórico do navegador em vez de empilhar uma nova. Isso evita que o usuário consiga clicar em "voltar" no navegador e retornar ao Dashboard mesmo depois de deslogado.
+
+## JSX (parte visual)
+
+```jsx
+return (
+  <section className="auth-page">
+    <div className="auth-card">
+      <h1>Dashboard</h1>
+      <p>Bem-vindo(a), {user?.email}!</p>
+      <button className="auth-submit" type="button" onClick={handleLogout}>
+        Sair
+      </button>
+    </div>
+  </section>
+);
+```
+
+- Estrutura simples de "cartão" (`auth-card` dentro de `auth-page`), reaproveitando provavelmente as mesmas classes CSS usadas nas telas de login/cadastro.
+- `{user?.email}` usa **optional chaining**: se `user` for `null` ou `undefined` (por exemplo, enquanto os dados ainda estão carregando), não gera erro — simplesmente exibe `undefined` no lugar do email (ou nada, dependendo de como for tratado).
+- O botão "Sair" tem `type="button"` (evita comportamento padrão de submit caso esteja dentro de um `<form>`) e, ao ser clicado, chama `handleLogout`.
+
+## Resumo
+
+Esse componente exibe uma tela simples de Dashboard que:
+1. Pega o usuário logado e a função de logout do contexto de autenticação.
+2. Mostra uma saudação com o email do usuário.
+3. Ao clicar em "Sair", desloga o usuário (assincronamente) e depois o redireciona para `/login`, substituindo a entrada no histórico do navegador.
+
+Uma possível melhoria seria tratar erros do `logout()` com `try/catch`, já que se a chamada falhar, o `navigate` não seria executado (o que pode ser bom ou ruim, dependendo do comportamento desejado).

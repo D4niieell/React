@@ -1,0 +1,57 @@
+Esse código cria um componente React chamado `GoogleLoginButton`, que renderiza o botão oficial de "Entrar com Google" usando a biblioteca `@react-oauth/google`. Vou explicar linha por linha:
+
+## Importação
+
+```jsx
+import { GoogleLogin } from "@react-oauth/google";
+```
+
+Importa o componente `GoogleLogin`, que já vem pronto (com o visual e a lógica de autenticação) da biblioteca `@react-oauth/google`.
+
+## Definição do componente
+
+```jsx
+export default function GoogleLoginButton({ onCredential, onError }) {
+```
+
+Cria um componente funcional chamado `GoogleLoginButton`, que recebe duas **props** (funções passadas de fora):
+- `onCredential`: função chamada quando o login der certo, para lidar com o token retornado.
+- `onError`: função chamada quando o login falhar.
+
+## O botão do Google
+
+```jsx
+<GoogleLogin
+  onSuccess={(credentialResponse) =>
+    onCredential(credentialResponse.credential)
+  }
+  onError={onError}
+  theme="outline"
+  size="large"
+  width={320}
+  text="continue_with"
+/>
+```
+
+Aqui o componente `GoogleLogin` é renderizado com algumas propriedades:
+
+- **`onSuccess`**: função executada automaticamente quando o usuário faz login com sucesso. O Google retorna um objeto `credentialResponse`, que contém um **JWT** (token de identidade) na propriedade `.credential`. Esse código pega só o token (`credentialResponse.credential`) e repassa para a função `onCredential` recebida como prop — ou seja, quem usa esse componente decide o que fazer com o token (geralmente, enviá-lo para o backend para validar e criar uma sessão).
+
+- **`onError`**: repassa diretamente a função de erro recebida como prop, caso o login falhe.
+
+- **`theme="outline"`**: estilo visual do botão (contorno, ao invés de preenchido).
+
+- **`size="large"`**: tamanho do botão.
+
+- **`width={320}`**: largura do botão em pixels.
+
+- **`text="continue_with"`**: define o texto exibido no botão, nesse caso "Continuar com o Google" (varia conforme o idioma do navegador).
+
+## Resumo do fluxo
+
+1. O componente exibe o botão do Google pronto.
+2. O usuário clica e faz login pela interface do Google.
+3. Se der certo, o Google retorna um **token JWT** contendo os dados do usuário (nome, e-mail, etc., de forma codificada).
+4. Esse token é passado para `onCredential`, que normalmente é usado para **enviar ao backend**, validar o token (verificando a assinatura com a chave pública do Google) e então autenticar o usuário na aplicação.
+
+Se quiser, posso te mostrar um exemplo de como usar esse `GoogleLoginButton` em uma tela de login, ou como validar esse token no backend (Node, Python, etc.).

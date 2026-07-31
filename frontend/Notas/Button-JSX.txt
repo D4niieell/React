@@ -1,0 +1,65 @@
+Claro! Vamos por partes:
+
+**Estrutura geral**
+
+```jsx
+const Button = ({ children, className, onClick }) => { ... }
+```
+
+Isso é um **componente funcional** do React chamado `Button`. Ele recebe um objeto de *props* que é desestruturado em três valores:
+
+- **`children`** — é o conteúdo que fica *entre* as tags de abertura e fechamento do componente quando ele é usado. Ex: se você escrever `<Button>Clique aqui</Button>`, o texto "Clique aqui" vira o `children`.
+- **`className`** — uma string com classes CSS a serem aplicadas ao botão (útil para estilização com Tailwind, CSS modules, etc).
+- **`onClick`** — uma função que será executada quando o botão for clicado.
+
+**O que ele renderiza**
+
+```jsx
+return (
+  <div>
+    <button className={className} onClick={onClick}>
+      {children}
+    </button>
+  </div>
+);
+```
+
+- Cria uma `<div>` envolvendo tudo (um wrapper).
+- Dentro dela, um elemento `<button>` HTML nativo.
+- O `className` recebido é passado para o botão, controlando sua aparência.
+- O `onClick` recebido é passado como o manipulador de clique do botão.
+- `{children}` insere o conteúdo passado pelo componente pai dentro do botão (pode ser texto, ícones, outros elementos, etc).
+
+**Exportação**
+
+```jsx
+export default Button;
+```
+
+Torna esse componente disponível para ser importado e usado em outros arquivos, por exemplo:
+
+```jsx
+import Button from './Button';
+
+<Button className="btn-primary" onClick={() => alert('Oi!')}>
+  Enviar
+</Button>
+```
+
+**Um detalhe a observar**
+
+A `<div>` que envolve o `<button>` geralmente é **desnecessária** aqui — ela não adiciona nenhuma função, só cria uma camada extra no DOM (o que pode até atrapalhar estilizações com flexbox/grid no elemento pai). Uma versão mais enxuta seria:
+
+```jsx
+const Button = ({ children, className, onClick }) => {
+  return (
+    <button className={className} onClick={onClick}>
+      {children}
+    </button>
+  );
+};
+
+export default Button;
+```
+
+Isso simplifica o componente e evita problemas de layout causados por essa `div` extra. Só mantenha o wrapper se você tiver um motivo específico (como aplicar algum estilo só no container).

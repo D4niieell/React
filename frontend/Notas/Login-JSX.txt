@@ -1,0 +1,96 @@
+# Explicação do código
+
+Este é um componente React de **página de login**, escrito em JSX. Vamos por partes:
+
+## Imports
+
+```js
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+```
+- `useState`: hook do React para gerenciar estado local.
+- `Link`, `useLocation`, `useNavigate`: do React Router, para navegação entre páginas e acesso ao estado da rota atual.
+
+```js
+import { loginRequest, googleLoginRequest } from "../api/api";
+```
+- Funções que fazem as chamadas HTTP de login (provavelmente `fetch`/`axios`) para o backend.
+
+```js
+import { useAuth } from "../context/AuthContext";
+```
+- Hook customizado que dá acesso ao contexto de autenticação global da aplicação (provavelmente guarda o token e o usuário logado).
+
+```js
+import GoogleLoginButton from "../components/GoogleLoginButton";
+```
+- Componente reutilizável do botão "Entrar com Google".
+
+## Estados (`useState`)
+
+```js
+const [user_email, setEmail] = useState("");
+const [user_password, setPassword] = useState("");
+const [error, setError] = useState("");
+const [loading, setLoading] = useState(false);
+```
+- Guardam o valor dos campos de e-mail e senha, mensagens de erro, e se a requisição está em andamento (para desabilitar o botão e mostrar "Entrando...").
+
+## Hooks auxiliares
+
+```js
+const { login } = useAuth();
+const navigate = useNavigate();
+const location = useLocation();
+const successMessage = location.state?.message;
+```
+- `login`: função do contexto que provavelmente salva o token e atualiza o estado global de autenticação.
+- `navigate`: usado para redirecionar o usuário após o login.
+- `location.state?.message`: permite exibir uma mensagem de sucesso vinda de outra página (ex: "Cadastro realizado com sucesso!" ao ser redirecionado do registro para o login).
+
+## `handleSubmit` — login por e-mail/senha
+
+```js
+async function handleSubmit(event) {
+  event.preventDefault();
+  setError("");
+  setLoading(true);
+  try {
+    const { accessToken } = await loginRequest(user_email, user_password);
+    login(accessToken);
+    navigate("/dashboard", { replace: true });
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+}
+```
+1. Previne o recarregamento padrão do formulário.
+2. Limpa erros anteriores e ativa o estado de carregamento.
+3. Chama a API de login; se der certo, salva o token via `login()` e redireciona para `/dashboard` (substituindo a entrada no histórico, para o usuário não voltar à tela de login com o botão "voltar").
+4. Se der erro, mostra a mensagem de erro.
+5. No `finally`, desliga o loading independentemente do resultado.
+
+## `handleGoogleCredential` — login via Google
+
+Mesma lógica do `handleSubmit`, mas recebendo a credencial gerada pelo botão do Google (`GoogleLoginButton`) e chamando `googleLoginRequest`.
+
+## JSX (interface)
+
+- Um `<section>` com um card (`auth-card`) contendo:
+  - Título "Entrar".
+  - Mensagem de sucesso (se veio de outra rota) e mensagem de erro (se houver), exibidas condicionalmente.
+  - **Formulário** (`<form onSubmit={handleSubmit}>`) com campos controlados de e-mail e senha (`value` + `onChange` ligados ao estado).
+  - Botão de submit que fica desabilitado e muda o texto enquanto `loading` é `true`.
+  - Um divisor "ou".
+  - O botão de login com Google, passando os callbacks `onCredential` e `onError`.
+  - Um link para a página de cadastro (`/register`).
+
+## Resumo geral
+
+É uma tela de login funcional, com:
+- Formulário tradicional (e-mail/senha) e login social com Google.
+- Feedback visual de carregamento e erros.
+- Integração com contexto de autenticação e roteamento (redirecionamento pós-login).
+- Suporte a mensagens de sucesso passadas via navegação (ex: vindas do cadastro).

@@ -1,0 +1,66 @@
+Esse código configura o roteamento principal de uma aplicação React usando `react-router-dom`, com autenticação. Vamos por partes:
+
+* Imports
+
+```jsx
+import { Navigate, Route, Routes } from "react-router-dom";
+```
+Importa os componentes do React Router: `Routes` (agrupa as rotas), `Route` (define cada rota) e `Navigate` (faz redirecionamentos).
+
+```jsx
+import { AuthProvider, useAuth } from "./context/AuthContext";
+```
+Importa um Context de autenticação: `AuthProvider` fornece o estado de autenticação para toda a árvore de componentes, e `useAuth` é um hook para acessar esse estado (provavelmente algo como `{ isAuthenticated, user, login, logout }`).
+
+```jsx
+import ProtectedRoute from "./components/ProtectedRoute";
+```
+Um componente "guarda" que só renderiza seus filhos se o usuário estiver autenticado (caso contrário, normalmente redireciona para o login).
+
+## Componente `Root`
+
+```jsx
+function Root() {
+  const { isAuthenticated } = useAuth();
+  return <Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />;
+}
+```
+Esse componente representa a rota raiz (`/`). Ele não renderiza nenhuma UI própria — apenas verifica se o usuário está autenticado e redireciona:
+- Se **autenticado** → vai para `/dashboard`
+- Se **não autenticado** → vai para `/login`
+
+O `replace` faz com que essa entrada não fique no histórico do navegador (evita que o botão "voltar" leve de volta a uma tela de redirecionamento vazia).
+
+## Componente `App`
+
+```jsx
+function App() {
+  return (
+    <AuthProvider>
+      <Routes>
+        ...
+      </Routes>
+    </AuthProvider>
+  );
+}
+```
+Envolve toda a aplicação com `AuthProvider`, garantindo que qualquer componente dentro da árvore (incluindo as páginas) tenha acesso ao contexto de autenticação via `useAuth()`.
+
+### As rotas definidas:
+
+| Caminho | Elemento | Comportamento |
+|---|---|---|
+| `/` | `<Root />` | Redireciona conforme autenticação |
+| `/login` | `<Login />` | Página de login, acesso livre |
+| `/register` | `<Register />` | Página de cadastro, acesso livre |
+| `/dashboard` | `<ProtectedRoute><Dashboard /></ProtectedRoute>` | Só acessível se autenticado |
+| `*` (qualquer outra) | `<Navigate to="/" replace />` | Rota "coringa" — qualquer URL não mapeada redireciona para `/`, que por sua vez decide para onde mandar o usuário |
+
+## Resumo do fluxo
+
+1. Usuário acessa qualquer URL desconhecida → cai na rota `*` → vai para `/`
+2. Em `/`, o componente `Root` verifica autenticação e manda para `/login` ou `/dashboard`
+3. `/dashboard` é protegida: só renderiza `Dashboard` se `ProtectedRoute` confirmar que o usuário está autenticado (senão, provavelmente redireciona para `/login`)
+4. `/login` e `/register` ficam abertas para qualquer visitante
+
+É um padrão bem comum em SPAs (Single Page Applications) para separar áreas públicas de áreas que exigem login.

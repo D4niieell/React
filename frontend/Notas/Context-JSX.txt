@@ -1,0 +1,40 @@
+Esse trecho de código cria um **Context** do React — um mecanismo para compartilhar dados entre componentes sem precisar passar props manualmente em cada nível da árvore de componentes (evitando o chamado "prop drilling").
+
+**Linha por linha:**
+
+```js
+import { createContext } from "react";
+```
+Importa a função `createContext` da biblioteca React.
+
+```js
+export const Context = createContext();
+```
+Cria um novo objeto de contexto chamado `Context` e o exporta, para que possa ser usado em outros arquivos do projeto.
+
+**Como isso costuma ser usado na prática:**
+
+1. **Provider** — em algum componente "pai", você envolve os componentes filhos com `Context.Provider` e passa um valor:
+```jsx
+<Context.Provider value={algumValor}>
+  <ComponenteFilho />
+</Context.Provider>
+```
+
+2. **Consumer** — qualquer componente descendente pode acessar esse valor usando o hook `useContext`:
+```jsx
+import { useContext } from "react";
+import { Context } from "./Context";
+
+function ComponenteFilho() {
+  const valor = useContext(Context);
+  return <div>{valor}</div>;
+}
+```
+
+**Detalhe importante:** como `createContext()` foi chamado sem argumento, o valor padrão do contexto é `undefined`. Isso significa que, se um componente tentar usar `useContext(Context)` sem estar dentro de um `Context.Provider`, ele receberá `undefined` em vez de um valor útil. Por isso, é comum:
+
+- Passar um valor padrão: `createContext(valorPadrao)`, ou
+- Criar uma verificação/erro dentro de um hook customizado para garantir que o `Provider` está presente.
+
+Quer que eu monte um exemplo completo (Provider + Consumer + hook customizado) para ilustrar o fluxo todo?

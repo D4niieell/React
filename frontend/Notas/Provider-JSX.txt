@@ -1,0 +1,65 @@
+Vamos por partes — esse código tem uma pegadinha clássica do React que vale a pena entender.
+
+## O que o código faz
+
+É um **Context Provider** que deveria disponibilizar uma função `calcular` (e seu setter `setCalcular`) para qualquer componente filho que consuma esse Context.
+
+```jsx
+const Provider = ({ children }) => {
+  const [calcular, setCalcular] = useState((a, b) => {
+    return a + b;
+  });
+  ...
+};
+```
+
+A intenção parece ser: "quero guardar uma função de soma no estado, para poder usá-la (e trocá-la) depois".
+
+## O bug escondido
+
+Aqui está o problema: quando você passa uma **função** para `useState()`, o React não guarda essa função como o valor do estado. Em vez disso, ele **executa essa função imediatamente** (sem argumentos) e usa o **retorno** dela como valor inicial. Isso é o recurso chamado *lazy initial state*, pensado para casos como:
+
+```jsx
+const [valor, setValor] = useState(() => calculoCaro());
+```
+
+No seu caso, o React vai chamar `(a, b) => a + b` sem argumentos, ou seja, `a` e `b` serão `undefined`. O resultado de `undefined + undefined` é `NaN`.
+
+Então, na prática:
+
+```js
+calcular // não é uma função! é NaN
+```
+
+Qualquer tentativa de fazer `calcular(2, 3)` em outro componente vai quebrar, porque `NaN` não é uma função.
+
+## Como corrigir
+
+Se você realmente quer guardar uma **função** dentro do estado, precisa "escondê-la" dentro de outra função, assim:
+
+```jsx
+const [calcular, setCalcular] = useState(() => (a, b) => a + b);
+```
+
+Aqui o React chama a função externa `() => (a, b) => a + b`, que retorna a função de soma — e é *essa* função de soma que vira o valor do estado.
+
+E se depois você quiser atualizar `calcular` com `setCalcular`, o mesmo cuidado se aplica:
+
+```jsx
+setCalcular(() => (a, b) => a * b); // certo
+setCalcular((a, b) => a * b);       // ERRADO - vai ser chamada com o estado atual como argumento
+```
+
+Isso porque `setCalcular` também aceita uma função como *updater function* (recebendo o estado anterior), então passar uma função direto é ambíguo e o React trata como updater, não como valor.
+
+## Resumindo
+
+| O que você quer guardar no estado | Como escrever no `useState` |
+
+|---|---|
+
+| Um número, string, objeto, array | `useState(valor)` |
+
+| Uma função | `useState(() => funcao)` |
+
+Se quiser, posso reescrever o `Provider` completo já corrigido, com um exemplo de uso em um componente filho consumindo o `Context`.

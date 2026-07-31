@@ -1,0 +1,52 @@
+Esse código é um componente de **rota protegida**, usado para restringir acesso a certas páginas apenas a usuários autenticados. É um padrão muito comum em apps React com autenticação.
+
+## Linha por linha
+
+```jsx
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+```
+Importa o componente `Navigate` (do React Router, usado para redirecionar o usuário) e o hook customizado `useAuth`, que vem de um Context de autenticação criado no projeto.
+
+```jsx
+export default function ProtectedRoute({ children }) {
+```
+Define um componente chamado `ProtectedRoute`, que recebe `children` como prop — ou seja, o conteúdo (outros componentes/páginas) que ele vai "envolver" e proteger.
+
+```jsx
+  const { isAuthenticated } = useAuth();
+```
+Usa o hook `useAuth` para pegar o estado `isAuthenticated` do contexto de autenticação (provavelmente `true` ou `false`, dizendo se o usuário está logado).
+
+```jsx
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+```
+Se o usuário **não** estiver autenticado, o componente redireciona automaticamente para `/login`.
+- `replace` faz o redirecionamento substituir a entrada atual no histórico do navegador, em vez de empilhar uma nova — isso evita que o usuário clique em "voltar" e retorne para a página protegida.
+
+```jsx
+  return children;
+}
+```
+Se o usuário **estiver** autenticado, o componente simplesmente renderiza o conteúdo (`children`) normalmente.
+
+## Como é usado na prática
+
+Normalmente esse componente envolve as rotas que você quer proteger, assim:
+
+```jsx
+<Route
+  path="/dashboard"
+  element={
+    <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+  }
+/>
+```
+
+Nesse exemplo, se o usuário tentar acessar `/dashboard` sem estar logado, ele é redirecionado para `/login`. Se estiver logado, o `Dashboard` é exibido normalmente.
+
+Quer que eu mostre como ficaria o `AuthContext` correspondente, ou como adaptar esse padrão para React Router v6.4+ (com `createBrowserRouter`)?

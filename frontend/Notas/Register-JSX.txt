@@ -1,0 +1,77 @@
+Este código é um componente React de **cadastro de usuário** (tela de registro), usando React Router. Vou explicar por partes:
+
+## Imports
+
+```js
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { registerRequest } from "../api/api";
+import { formatPhone } from "../utils/formatPhone";
+import "./Auth.css";
+```
+
+- `useState`: hook para gerenciar estado local do componente.
+- `Link` e `useNavigate`: do React Router, para navegação entre páginas.
+- `registerRequest`: função (provavelmente uma chamada HTTP) que envia os dados de cadastro para a API.
+- `formatPhone`: função utilitária que formata o telefone enquanto o usuário digita.
+- Importa o CSS específico de autenticação.
+
+## Constantes
+
+```js
+const DEFAULT_ROLE_ID = 1; // cliente
+const DEFAULT_USER_STATUS = 1;
+```
+
+Valores fixos enviados no cadastro: todo novo usuário nasce com papel "cliente" (`role_id: 1`) e status ativo (`user_status: 1`).
+
+## Estados do componente
+
+```js
+const [user_name, setName] = useState("");
+const [user_email, setEmail] = useState("");
+const [user_phone, setPhone] = useState("");
+const [user_password, setPassword] = useState("");
+const [confirmPassword, setConfirmPassword] = useState("");
+const [error, setError] = useState("");
+const [loading, setLoading] = useState(false);
+```
+
+Cada campo do formulário tem seu próprio estado, mais um estado para mensagem de erro e outro para indicar se a requisição está em andamento (usado para desabilitar o botão e trocar o texto).
+
+## Função `handleSubmit`
+
+Executada ao enviar o formulário:
+
+1. `event.preventDefault()` — evita o recarregamento padrão da página.
+2. Limpa erros anteriores.
+3. **Valida** se a senha e a confirmação são iguais; se não forem, mostra erro e interrompe (`return`).
+4. Ativa `loading`.
+5. **Try/catch**:
+   - Tenta chamar `registerRequest(...)` enviando os dados do formulário + os valores padrão de `role_id` e `user_status`.
+   - Se der certo, redireciona para `/login` (substituindo a entrada no histórico, `replace: true`) e passa uma mensagem de sucesso via `state`, que a tela de login provavelmente exibe.
+   - Se der erro, captura a mensagem (`err.message`) e mostra na tela.
+6. No `finally`, desativa o `loading` independentemente do resultado.
+
+## JSX (interface)
+
+- Uma seção com um card de formulário (`auth-page` / `auth-card`).
+- Exibe mensagem de erro condicionalmente, se `error` não estiver vazio.
+- Campos do formulário:
+  - **Nome**: texto, entre 3 e 150 caracteres, obrigatório.
+  - **Email**: tipo `email`, obrigatório.
+  - **Telefone**: usa `formatPhone` para formatar automaticamente enquanto digita, e valida com uma **regex** (`pattern`) o formato `(11) 91234-5678`.
+  - **Senha**: também validada por regex, exigindo ao menos 1 minúscula, 1 maiúscula, 1 número, 1 caractere especial e mínimo de 8 caracteres — o `title` mostra essa dica ao usuário.
+  - **Confirmar senha**: campo simples para repetir a senha.
+- Botão de envio desabilitado durante o `loading`, com texto dinâmico ("Cadastrando..." vs "Cadastrar").
+- Rodapé com link para a tela de login (`/login`), usando o componente `Link` do React Router (não recarrega a página).
+
+## Resumo do fluxo
+
+1. Usuário preenche o formulário.
+2. Ao enviar, o app valida localmente (senhas iguais) e via regex do HTML5 (padrões de senha/telefone).
+3. Chama a API de registro.
+4. Sucesso → vai para login com mensagem de boas-vindas.
+5. Erro → mostra mensagem na tela sem perder os dados digitados.
+
+Se quiser, posso sugerir melhorias (ex: validação de senha em tempo real, feedback visual por campo, ou tratamento de erros mais robusto).
