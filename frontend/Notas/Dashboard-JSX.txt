@@ -1,6 +1,6 @@
 Claro! Vamos por partes.
 
-## Imports
+* Imports
 
 ```jsx
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import { useAuth } from "../context/AuthContext";
 - `useNavigate`: hook do React Router que permite navegar programaticamente entre rotas (sem precisar de um `<Link>` clicado pelo usuário).
 - `useAuth`: um hook customizado, definido em outro arquivo (`AuthContext`), que provavelmente usa o Context API do React para compartilhar informações de autenticação (usuário logado, funções de login/logout, etc.) entre componentes.
 
-## Componente `Dashboard`
+* Componente `Dashboard`
 
 ```jsx
 export default function Dashboard() {
@@ -24,7 +24,7 @@ export default function Dashboard() {
   - `logout`: função assíncrona que provavelmente limpa o token/sessão de autenticação.
 - `navigate` é a função retornada por `useNavigate`, usada para redirecionar o usuário.
 
-## Função de logout
+* Função de logout
 
 ```jsx
 async function handleLogout() {
@@ -37,7 +37,7 @@ async function handleLogout() {
 - `navigate("/login", { replace: true })` redireciona o usuário para a página de login.
   - A opção `{ replace: true }` substitui a entrada atual no histórico do navegador em vez de empilhar uma nova. Isso evita que o usuário consiga clicar em "voltar" no navegador e retornar ao Dashboard mesmo depois de deslogado.
 
-## JSX (parte visual)
+* JSX (parte visual)
 
 ```jsx
 return (
@@ -57,7 +57,7 @@ return (
 - `{user?.email}` usa **optional chaining**: se `user` for `null` ou `undefined` (por exemplo, enquanto os dados ainda estão carregando), não gera erro — simplesmente exibe `undefined` no lugar do email (ou nada, dependendo de como for tratado).
 - O botão "Sair" tem `type="button"` (evita comportamento padrão de submit caso esteja dentro de um `<form>`) e, ao ser clicado, chama `handleLogout`.
 
-## Resumo
+* Resumo
 
 Esse componente exibe uma tela simples de Dashboard que:
 1. Pega o usuário logado e a função de logout do contexto de autenticação.

@@ -1,6 +1,6 @@
 Esse código cria um componente React chamado `GoogleLoginButton`, que renderiza o botão oficial de "Entrar com Google" usando a biblioteca `@react-oauth/google`. Vou explicar linha por linha:
 
-## Importação
+* Importação
 
 ```jsx
 import { GoogleLogin } from "@react-oauth/google";
@@ -8,7 +8,7 @@ import { GoogleLogin } from "@react-oauth/google";
 
 Importa o componente `GoogleLogin`, que já vem pronto (com o visual e a lógica de autenticação) da biblioteca `@react-oauth/google`.
 
-## Definição do componente
+* Definição do componente
 
 ```jsx
 export default function GoogleLoginButton({ onCredential, onError }) {
@@ -18,7 +18,7 @@ Cria um componente funcional chamado `GoogleLoginButton`, que recebe duas **prop
 - `onCredential`: função chamada quando o login der certo, para lidar com o token retornado.
 - `onError`: função chamada quando o login falhar.
 
-## O botão do Google
+* O botão do Google
 
 ```jsx
 <GoogleLogin
@@ -47,11 +47,9 @@ Aqui o componente `GoogleLogin` é renderizado com algumas propriedades:
 
 - **`text="continue_with"`**: define o texto exibido no botão, nesse caso "Continuar com o Google" (varia conforme o idioma do navegador).
 
-## Resumo do fluxo
+* Resumo do fluxo
 
 1. O componente exibe o botão do Google pronto.
 2. O usuário clica e faz login pela interface do Google.
 3. Se der certo, o Google retorna um **token JWT** contendo os dados do usuário (nome, e-mail, etc., de forma codificada).
 4. Esse token é passado para `onCredential`, que normalmente é usado para **enviar ao backend**, validar o token (verificando a assinatura com a chave pública do Google) e então autenticar o usuário na aplicação.
-
-Se quiser, posso te mostrar um exemplo de como usar esse `GoogleLoginButton` em uma tela de login, ou como validar esse token no backend (Node, Python, etc.).

@@ -13,33 +13,32 @@ const Footer = () => {
 export default Footer;
 ```
 
-**O que é:**
+- O que é: -
 
 Isso é um **componente funcional do React**, escrito em JSX (a sintaxe que mistura JavaScript com HTML).
 
-**Linha por linha:**
+- Linha por linha: -
 
-1. `const Footer = () => { ... }`
+- 1. `const Footer = () => { ... }`
    - Declara uma constante chamada `Footer`, que é uma **função arrow (arrow function)** sem parâmetros.
    - Em React, componentes são apenas funções que retornam JSX (a "aparência" do componente).
 
-2. `return ( ... )`
+- 2. `return ( ... )`
    - A função retorna o que será renderizado na tela.
 
-3. `<footer> ... </footer>`
+- 3. `<footer> ... </footer>`
    - É uma tag HTML semântica que representa o **rodapé** da página.
 
-4. `<div> <h1>Footer</h1> </div>`
+- 4. `<div> <h1>Footer</h1> </div>`
    - Dentro do `<footer>`, tem uma `<div>` (um contêiner genérico) contendo um `<h1>` com o texto "Footer".
    - Ou seja, na tela vai aparecer um rodapé com o título "Footer" escrito nele.
 
-5. `export default Footer;`
+- 5. `export default Footer;`
    - Exporta esse componente como **exportação padrão** do arquivo.
    - Isso permite que ele seja importado em outro arquivo assim:
      ```javascript
      import Footer from './Footer';
      ```
 
-**Resumindo:** é um componente simples que renderiza um rodapé com o texto "Footer" dentro de um título `<h1>`. É bem básico — normalmente você usaria isso como ponto de partida e depois adicionaria estilos, links, copyright, etc.
-
-Quer que eu te mostre como deixar esse Footer mais completo (com links, ano dinâmico, etc.)?
+* Resumindo: 
+  é um componente simples que renderiza um rodapé com o texto "Footer" dentro de um título `<h1>`. É bem básico — normalmente você usaria isso como ponto de partida e depois adicionaria estilos, links, copyright, etc.

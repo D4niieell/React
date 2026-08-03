@@ -1,6 +1,6 @@
 Claro! Vamos por partes:
 
-## Importação
+* Importação
 
 ```jsx
 import { NavLink } from "react-router-dom";
@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 
 Importa o componente `NavLink` da biblioteca **react-router-dom**, que é usada para criar navegação entre páginas em aplicações React sem recarregar o navegador (Single Page Application).
 
-## O componente `Navigation`
+* O componente `Navigation`
 
 ```jsx
 const Navigation = () => {
@@ -22,7 +22,7 @@ const Navigation = () => {
 
 É um **componente funcional** do React chamado `Navigation`. Ele retorna um elemento `<nav>`, que é a tag semântica HTML própria para blocos de navegação (menus).
 
-## A lista de links
+* A lista de links
 
 ```jsx
 <ul>
@@ -44,7 +44,7 @@ const Navigation = () => {
   - `/login` → página de login
   - `/cadastro` → página de cadastro
 
-## Por que `NavLink` e não `<a>` ou `Link`?
+* Por que `NavLink` e não `<a>` ou `Link`?
 
 A grande diferença do `NavLink` em relação ao `Link` comum (também do react-router-dom) é que ele **sabe quando está "ativo"** — ou seja, quando a rota atual do navegador corresponde ao `to` daquele link.
 
@@ -52,7 +52,7 @@ Por padrão, quando um `NavLink` está ativo, o React Router adiciona automatica
 
 Se você usasse `<a href="/login">`, o navegador recarregaria a página inteira. Com `NavLink`, a troca de página é feita pelo React internamente (roteamento client-side), deixando a navegação mais rápida.
 
-## Exportação
+* Exportação
 
 ```jsx
 export default Navigation;
@@ -66,8 +66,7 @@ import Navigation from "./Navigation";
 <Navigation />
 ```
 
-## Resumindo
+* Resumindo
 
 Esse código cria uma **barra de navegação reutilizável** com três links (Home, Login e Cadastro), usando o React Router para trocar de página sem recarregar o site, e com suporte automático a destacar o link da página atual.
 
-Quer que eu mostre um exemplo de como estilizar o link ativo com CSS?

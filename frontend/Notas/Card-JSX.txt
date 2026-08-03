@@ -1,6 +1,6 @@
 Claro! Vamos por partes:
 
-## Estrutura geral
+* Estrutura geral
 
 ```javascriptreact
 const Card = ({ livro }) => { ... }
@@ -8,7 +8,7 @@ const Card = ({ livro }) => { ... }
 
 Isso é um **componente funcional** do React chamado `Card`. Ele é uma função (usando arrow function) que recebe **props** como parâmetro.
 
-## Destructuring das props
+* Destructuring das props
 
 ```javascriptreact
 ({ livro })
@@ -29,7 +29,7 @@ Isso significa que, ao usar esse componente, você precisa passar uma prop chama
 <Card livro={meuLivroObjeto} />
 ```
 
-## O JSX retornado
+* O JSX retornado
 
 ```jsx
 return (
@@ -50,7 +50,7 @@ Ou seja, esse componente espera que `livro` seja um objeto parecido com:
 { titulo: "Dom Casmurro", autor: "Machado de Assis" }
 ```
 
-## Exportação
+* Exportação
 
 ```javascriptreact
 export default Card;
@@ -64,6 +64,6 @@ import Card from './Card';
 <Card livro={{ titulo: "1984", autor: "George Orwell" }} />
 ```
 
-## Resumindo
+* Resumindo
 
-Esse componente é um **cartão de exibição de livro**: ele recebe um objeto `livro` como prop e renderiza o título e o autor em elementos HTML formatados dentro de uma `div`. É um padrão bem comum em React para criar componentes reutilizáveis que exibem itens de uma lista (por exemplo, uma lista de livros de uma biblioteca).
+Esse componente é um 'cartão de exibição de livro': ele recebe um objeto `livro` como prop e renderiza o título e o autor em elementos HTML formatados dentro de uma `div`. É um padrão bem comum em React para criar componentes reutilizáveis que exibem itens de uma lista (por exemplo, uma lista de livros de uma biblioteca).

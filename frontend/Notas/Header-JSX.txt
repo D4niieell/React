@@ -37,7 +37,7 @@ Isso **exporta** o componente `Header` como export padrão do arquivo, permitind
 import Header from "./Header";
 ```
 
-### Resumindo
+* Resumindo
 Esse código define um componente `Header` que:
 1. Mostra um título "Header".
 2. Renderiza dentro de si o componente `Navigation` (provavelmente um menu de navegação).

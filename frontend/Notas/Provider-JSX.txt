@@ -1,6 +1,6 @@
 Vamos por partes — esse código tem uma pegadinha clássica do React que vale a pena entender.
 
-## O que o código faz
+* O que o código faz
 
 É um **Context Provider** que deveria disponibilizar uma função `calcular` (e seu setter `setCalcular`) para qualquer componente filho que consuma esse Context.
 
@@ -15,7 +15,7 @@ const Provider = ({ children }) => {
 
 A intenção parece ser: "quero guardar uma função de soma no estado, para poder usá-la (e trocá-la) depois".
 
-## O bug escondido
+* O bug escondido
 
 Aqui está o problema: quando você passa uma **função** para `useState()`, o React não guarda essa função como o valor do estado. Em vez disso, ele **executa essa função imediatamente** (sem argumentos) e usa o **retorno** dela como valor inicial. Isso é o recurso chamado *lazy initial state*, pensado para casos como:
 
@@ -33,7 +33,7 @@ calcular // não é uma função! é NaN
 
 Qualquer tentativa de fazer `calcular(2, 3)` em outro componente vai quebrar, porque `NaN` não é uma função.
 
-## Como corrigir
+* Como corrigir
 
 Se você realmente quer guardar uma **função** dentro do estado, precisa "escondê-la" dentro de outra função, assim:
 
@@ -52,7 +52,7 @@ setCalcular((a, b) => a * b);       // ERRADO - vai ser chamada com o estado atu
 
 Isso porque `setCalcular` também aceita uma função como *updater function* (recebendo o estado anterior), então passar uma função direto é ambíguo e o React trata como updater, não como valor.
 
-## Resumindo
+* Resumindo
 
 | O que você quer guardar no estado | Como escrever no `useState` |
 

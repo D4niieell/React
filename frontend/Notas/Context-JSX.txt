@@ -1,6 +1,6 @@
 Esse trecho de código cria um **Context** do React — um mecanismo para compartilhar dados entre componentes sem precisar passar props manualmente em cada nível da árvore de componentes (evitando o chamado "prop drilling").
 
-**Linha por linha:**
+- Linha por linha: -
 
 ```js
 import { createContext } from "react";

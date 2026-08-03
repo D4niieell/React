@@ -1,6 +1,6 @@
 Claro! Esse código é um **componente de Layout** usado com React Router. Vamos por partes:
 
-## Imports
+* Imports
 
 ```jsx
 import { Outlet } from "react-router-dom";
@@ -11,7 +11,7 @@ import Footer from "./Footer";
 - `Outlet` é um componente especial do React Router.
 - `Header` e `Footer` são componentes próprios do seu projeto (cabeçalho e rodapé).
 
-## O componente `Layouts`
+* O componente `Layouts`
 
 ```jsx
 const Layouts = () => {
@@ -29,13 +29,13 @@ Esse componente define uma **estrutura visual fixa** para várias páginas da su
 
 O `<>...</>` é um **Fragment** — permite retornar vários elementos sem precisar de uma `<div>` extra envolvendo tudo.
 
-## A parte mais importante: `<Outlet />`
+* A parte mais importante: `<Outlet />`
 
 Esse é o "pulo do gato". O `Outlet` funciona como um **espaço reservado** (placeholder) onde o React Router vai renderizar a rota filha ativa no momento.
 
 Ou seja, dependendo da URL atual, o conteúdo que aparece ali dentro muda — mas o `Header` e o `Footer` permanecem sempre visíveis.
 
-### Exemplo de uso nas rotas
+* Exemplo de uso nas rotas
 
 ```jsx
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
 
 Aqui, tanto `Home` quanto `About` serão renderizados **dentro** do `<Outlet />`, enquanto `Header` e `Footer` continuam fixos ao redor deles.
 
-### Resultado visual
+* Resultado visual
 
 ```
 ┌─────────────────┐
@@ -72,5 +72,3 @@ Aqui, tanto `Home` quanto `About` serão renderizados **dentro** do `<Outlet />`
 ```
 
 Isso evita repetir `<Header />` e `<Footer />` em cada página — você define uma vez no `Layouts` e reaproveita em todas as rotas filhas. 
-
-Quer que eu monte um exemplo completo de rotas usando esse layout?

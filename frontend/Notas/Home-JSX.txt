@@ -16,7 +16,7 @@ const [livros, setLivros] = useState([]);
 ```
 Cria uma variável de estado `livros`, inicializada como um array vazio, e uma função `setLivros` para atualizá-la.
 
-## Busca dos dados (useEffect)
+* Busca dos dados (useEffect)
 
 ```jsx
 useEffect(() => {

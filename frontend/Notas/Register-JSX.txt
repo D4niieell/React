@@ -1,6 +1,6 @@
 Este código é um componente React de **cadastro de usuário** (tela de registro), usando React Router. Vou explicar por partes:
 
-## Imports
+* Imports
 
 ```js
 import { useState } from "react";
@@ -16,7 +16,7 @@ import "./Auth.css";
 - `formatPhone`: função utilitária que formata o telefone enquanto o usuário digita.
 - Importa o CSS específico de autenticação.
 
-## Constantes
+* Constantes
 
 ```js
 const DEFAULT_ROLE_ID = 1; // cliente
@@ -25,7 +25,7 @@ const DEFAULT_USER_STATUS = 1;
 
 Valores fixos enviados no cadastro: todo novo usuário nasce com papel "cliente" (`role_id: 1`) e status ativo (`user_status: 1`).
 
-## Estados do componente
+* Estados do componente
 
 ```js
 const [user_name, setName] = useState("");
@@ -39,7 +39,7 @@ const [loading, setLoading] = useState(false);
 
 Cada campo do formulário tem seu próprio estado, mais um estado para mensagem de erro e outro para indicar se a requisição está em andamento (usado para desabilitar o botão e trocar o texto).
 
-## Função `handleSubmit`
+* Função `handleSubmit`
 
 Executada ao enviar o formulário:
 
@@ -53,7 +53,7 @@ Executada ao enviar o formulário:
    - Se der erro, captura a mensagem (`err.message`) e mostra na tela.
 6. No `finally`, desativa o `loading` independentemente do resultado.
 
-## JSX (interface)
+* JSX (interface)
 
 - Uma seção com um card de formulário (`auth-page` / `auth-card`).
 - Exibe mensagem de erro condicionalmente, se `error` não estiver vazio.
@@ -66,7 +66,7 @@ Executada ao enviar o formulário:
 - Botão de envio desabilitado durante o `loading`, com texto dinâmico ("Cadastrando..." vs "Cadastrar").
 - Rodapé com link para a tela de login (`/login`), usando o componente `Link` do React Router (não recarrega a página).
 
-## Resumo do fluxo
+* Resumo do fluxo
 
 1. Usuário preenche o formulário.
 2. Ao enviar, o app valida localmente (senhas iguais) e via regex do HTML5 (padrões de senha/telefone).

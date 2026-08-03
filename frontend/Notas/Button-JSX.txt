@@ -1,6 +1,6 @@
 Claro! Vamos por partes:
 
-**Estrutura geral**
+- Estrutura geral -
 
 ```jsx
 const Button = ({ children, className, onClick }) => { ... }
@@ -12,7 +12,7 @@ Isso é um **componente funcional** do React chamado `Button`. Ele recebe um obj
 - **`className`** — uma string com classes CSS a serem aplicadas ao botão (útil para estilização com Tailwind, CSS modules, etc).
 - **`onClick`** — uma função que será executada quando o botão for clicado.
 
-**O que ele renderiza**
+- O que ele renderiza -
 
 ```jsx
 return (
@@ -30,7 +30,7 @@ return (
 - O `onClick` recebido é passado como o manipulador de clique do botão.
 - `{children}` insere o conteúdo passado pelo componente pai dentro do botão (pode ser texto, ícones, outros elementos, etc).
 
-**Exportação**
+- Exportação -
 
 ```jsx
 export default Button;
@@ -46,7 +46,7 @@ import Button from './Button';
 </Button>
 ```
 
-**Um detalhe a observar**
+- Um detalhe a observar -
 
 A `<div>` que envolve o `<button>` geralmente é **desnecessária** aqui — ela não adiciona nenhuma função, só cria uma camada extra no DOM (o que pode até atrapalhar estilizações com flexbox/grid no elemento pai). Uma versão mais enxuta seria:
 

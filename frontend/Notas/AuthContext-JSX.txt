@@ -1,6 +1,6 @@
 Esse código implementa um **sistema de autenticação global** usando o Context API do React. Vou explicar parte por parte:
 
-## 1. Imports e criação do contexto
+- 1. Imports e criação do contexto
 
 ```js
 const AuthContext = createContext(null);
@@ -8,7 +8,7 @@ const AuthContext = createContext(null);
 
 Cria um "contexto" React — um jeito de compartilhar dados (como o usuário logado) entre componentes sem precisar passar props manualmente em cada nível da árvore de componentes.
 
-## 2. `AuthProvider` — o componente que fornece os dados
+- 2. `AuthProvider` — o componente que fornece os dados
 
 Esse componente vai envolver a aplicação (ou parte dela) e disponibilizar as informações de autenticação para todos os componentes filhos.
 
@@ -28,7 +28,7 @@ const [user, setUser] = useState(() => {
 ```
 Guarda os dados do usuário, extraídos do token (provavelmente um JWT) via `decodeToken`. Se não houver token, `user` começa como `null`.
 
-## 3. Função `login`
+- 3. Função `login`
 
 ```js
 function login(token) {
@@ -42,7 +42,7 @@ Quando o usuário faz login, essa função:
 2. Atualiza o estado `accessToken`
 3. Decodifica o token e atualiza o estado `user`
 
-## 4. Função `logout`
+- 4. Função `logout`
 
 ```js
 async function logout() {
@@ -57,7 +57,7 @@ async function logout() {
 ```
 Faz uma requisição ao servidor (`logoutRequest`) para invalidar a sessão no backend. O `finally` garante que, **mesmo se a requisição falhar**, o token local seja removido e os estados sejam limpos — ou seja, o usuário é deslogado no front-end independente do resultado da chamada à API.
 
-## 5. Provider e valor exposto
+- 5. Provider e valor exposto
 
 ```js
 <AuthContext.Provider
@@ -78,7 +78,7 @@ Disponibiliza para todos os componentes filhos:
 - `isAuthenticated` — booleano derivado (`true` se houver token)
 - `login` e `logout` — funções para alterar o estado de autenticação
 
-## 6. Hook customizado `useAuth`
+- 6. Hook customizado `useAuth`
 
 ```js
 export function useAuth() {
@@ -92,10 +92,10 @@ const { user, isAuthenticated, login, logout } = useAuth();
 
 ---
 
-### Resumindo o fluxo
+* Resumindo o fluxo
 1. App inicia → `AuthProvider` lê token salvo (se existir) → usuário já aparece "logado"
 2. Usuário faz login → token salvo + estado atualizado → toda a app reage via `useAuth()`
 3. Usuário faz logout → backend notificado + estado local limpo
 
-### Um ponto de atenção
+* Um ponto de atenção
 Guardar o token no `localStorage` é uma prática comum, mas tem um risco: fica vulnerável a ataques **XSS** (scripts maliciosos podem ler o `localStorage`). Uma alternativa mais segura costuma ser usar **cookies HttpOnly**, que não podem ser acessados via JavaScript. Se esse for um sistema sensível (dados financeiros, etc.), vale considerar essa abordagem.

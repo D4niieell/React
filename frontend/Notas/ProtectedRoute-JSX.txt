@@ -1,6 +1,6 @@
 Esse código é um componente de **rota protegida**, usado para restringir acesso a certas páginas apenas a usuários autenticados. É um padrão muito comum em apps React com autenticação.
 
-## Linha por linha
+* Linha por linha
 
 ```jsx
 import { Navigate } from "react-router-dom";
@@ -32,7 +32,7 @@ Se o usuário **não** estiver autenticado, o componente redireciona automaticam
 ```
 Se o usuário **estiver** autenticado, o componente simplesmente renderiza o conteúdo (`children`) normalmente.
 
-## Como é usado na prática
+* Como é usado na prática
 
 Normalmente esse componente envolve as rotas que você quer proteger, assim:
 

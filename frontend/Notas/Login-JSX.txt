@@ -1,8 +1,8 @@
-# Explicação do código
+* Explicação do código
 
 Este é um componente React de **página de login**, escrito em JSX. Vamos por partes:
 
-## Imports
+* Imports
 
 ```js
 import { useState } from "react";
@@ -26,7 +26,7 @@ import GoogleLoginButton from "../components/GoogleLoginButton";
 ```
 - Componente reutilizável do botão "Entrar com Google".
 
-## Estados (`useState`)
+* Estados (`useState`)
 
 ```js
 const [user_email, setEmail] = useState("");
@@ -36,7 +36,7 @@ const [loading, setLoading] = useState(false);
 ```
 - Guardam o valor dos campos de e-mail e senha, mensagens de erro, e se a requisição está em andamento (para desabilitar o botão e mostrar "Entrando...").
 
-## Hooks auxiliares
+* Hooks auxiliares
 
 ```js
 const { login } = useAuth();
@@ -48,7 +48,7 @@ const successMessage = location.state?.message;
 - `navigate`: usado para redirecionar o usuário após o login.
 - `location.state?.message`: permite exibir uma mensagem de sucesso vinda de outra página (ex: "Cadastro realizado com sucesso!" ao ser redirecionado do registro para o login).
 
-## `handleSubmit` — login por e-mail/senha
+* `handleSubmit` — login por e-mail/senha
 
 ```js
 async function handleSubmit(event) {
@@ -72,11 +72,11 @@ async function handleSubmit(event) {
 4. Se der erro, mostra a mensagem de erro.
 5. No `finally`, desliga o loading independentemente do resultado.
 
-## `handleGoogleCredential` — login via Google
+* `handleGoogleCredential` — login via Google
 
 Mesma lógica do `handleSubmit`, mas recebendo a credencial gerada pelo botão do Google (`GoogleLoginButton`) e chamando `googleLoginRequest`.
 
-## JSX (interface)
+* JSX (interface)
 
 - Um `<section>` com um card (`auth-card`) contendo:
   - Título "Entrar".
@@ -87,7 +87,7 @@ Mesma lógica do `handleSubmit`, mas recebendo a credencial gerada pelo botão d
   - O botão de login com Google, passando os callbacks `onCredential` e `onError`.
   - Um link para a página de cadastro (`/register`).
 
-## Resumo geral
+* Resumo geral
 
 É uma tela de login funcional, com:
 - Formulário tradicional (e-mail/senha) e login social com Google.
