@@ -12,7 +12,7 @@ Cria um "contexto" React — um jeito de compartilhar dados (como o usuário log
 
 Esse componente vai envolver a aplicação (ou parte dela) e disponibilizar as informações de autenticação para todos os componentes filhos.
 
-**Estados:**
+- Estados: -
 ```js
 const [accessToken, setAccessToken] = useState(
   () => localStorage.getItem("accessToken") || null,
@@ -89,10 +89,9 @@ Um atalho para consumir o contexto. Em vez de importar `useContext` e `AuthConte
 ```js
 const { user, isAuthenticated, login, logout } = useAuth();
 ```
-
 ---
 
-* Resumindo o fluxo
+- Resumindo o fluxo -
 1. App inicia → `AuthProvider` lê token salvo (se existir) → usuário já aparece "logado"
 2. Usuário faz login → token salvo + estado atualizado → toda a app reage via `useAuth()`
 3. Usuário faz logout → backend notificado + estado local limpo
