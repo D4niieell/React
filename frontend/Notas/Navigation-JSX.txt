@@ -69,4 +69,3 @@ import Navigation from "./Navigation";
 * Resumindo
 
 Esse código cria uma **barra de navegação reutilizável** com três links (Home, Login e Cadastro), usando o React Router para trocar de página sem recarregar o site, e com suporte automático a destacar o link da página atual.
-

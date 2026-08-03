@@ -48,5 +48,3 @@ Normalmente esse componente envolve as rotas que você quer proteger, assim:
 ```
 
 Nesse exemplo, se o usuário tentar acessar `/dashboard` sem estar logado, ele é redirecionado para `/login`. Se estiver logado, o `Dashboard` é exibido normalmente.
-
-Quer que eu mostre como ficaria o `AuthContext` correspondente, ou como adaptar esse padrão para React Router v6.4+ (com `createBrowserRouter`)?

@@ -36,5 +36,3 @@ function ComponenteFilho() {
 
 - Passar um valor padrão: `createContext(valorPadrao)`, ou
 - Criar uma verificação/erro dentro de um hook customizado para garantir que o `Provider` está presente.
-
-Quer que eu monte um exemplo completo (Provider + Consumer + hook customizado) para ilustrar o fluxo todo?

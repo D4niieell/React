@@ -61,5 +61,3 @@ Isso porque `setCalcular` também aceita uma função como *updater function* (r
 | Um número, string, objeto, array | `useState(valor)` |
 
 | Uma função | `useState(() => funcao)` |
-
-Se quiser, posso reescrever o `Provider` completo já corrigido, com um exemplo de uso em um componente filho consumindo o `Context`.

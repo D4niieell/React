@@ -69,5 +69,3 @@ return (
 2. `useEffect` dispara a busca à API.
 3. Quando os dados chegam, `setLivros` atualiza o estado.
 4. O componente re-renderiza, e como `livros` não está mais vazio, exibe a lista de `Card`s.
-
-Se quiser, posso sugerir melhorias (tratamento de erros, loading mais robusto, etc.).

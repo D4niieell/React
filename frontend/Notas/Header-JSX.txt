@@ -43,5 +43,3 @@ Esse código define um componente `Header` que:
 2. Renderiza dentro de si o componente `Navigation` (provavelmente um menu de navegação).
 
 É um padrão bem comum em React: dividir a interface em componentes menores (como `Header`, `Navigation`, `Footer`) e combiná-los para montar a página completa.
-
-Quer que eu explique também como `Navigation` provavelmente funciona, ou tem alguma dúvida específica sobre esse trecho?

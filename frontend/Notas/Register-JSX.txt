@@ -73,5 +73,3 @@ Executada ao enviar o formulário:
 3. Chama a API de registro.
 4. Sucesso → vai para login com mensagem de boas-vindas.
 5. Erro → mostra mensagem na tela sem perder os dados digitados.
-
-Se quiser, posso sugerir melhorias (ex: validação de senha em tempo real, feedback visual por campo, ou tratamento de erros mais robusto).
