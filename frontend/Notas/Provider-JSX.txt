@@ -55,9 +55,10 @@ Isso porque `setCalcular` também aceita uma função como *updater function* (r
 * Resumindo
 
 | O que você quer guardar no estado | Como escrever no `useState` |
-
+-------------------------------------------------------------------
 |---|---|
-
+-------------------------------------------------------------------
 | Um número, string, objeto, array | `useState(valor)` |
-
+-------------------------------------------------------------------
 | Uma função | `useState(() => funcao)` |
+-------------------------------------------------------------------
