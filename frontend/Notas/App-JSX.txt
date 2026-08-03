@@ -17,7 +17,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 ```
 Um componente "guarda" que só renderiza seus filhos se o usuário estiver autenticado (caso contrário, normalmente redireciona para o login).
 
-## Componente `Root`
+* Componente `Root`
 
 ```jsx
 function Root() {
@@ -31,7 +31,7 @@ Esse componente representa a rota raiz (`/`). Ele não renderiza nenhuma UI pró
 
 O `replace` faz com que essa entrada não fique no histórico do navegador (evita que o botão "voltar" leve de volta a uma tela de redirecionamento vazia).
 
-## Componente `App`
+* Componente `App`
 
 ```jsx
 function App() {
@@ -46,17 +46,24 @@ function App() {
 ```
 Envolve toda a aplicação com `AuthProvider`, garantindo que qualquer componente dentro da árvore (incluindo as páginas) tenha acesso ao contexto de autenticação via `useAuth()`.
 
-### As rotas definidas:
+* As rotas definidas:
 
 | Caminho | Elemento | Comportamento |
+-----------------------------------------------------------------------------------------------------------------
 |---|---|---|
+-----------------------------------------------------------------------------------------------------------------
 | `/` | `<Root />` | Redireciona conforme autenticação |
+-----------------------------------------------------------------------------------------------------------------
 | `/login` | `<Login />` | Página de login, acesso livre |
+-----------------------------------------------------------------------------------------------------------------
 | `/register` | `<Register />` | Página de cadastro, acesso livre |
+-----------------------------------------------------------------------------------------------------------------
 | `/dashboard` | `<ProtectedRoute><Dashboard /></ProtectedRoute>` | Só acessível se autenticado |
+-----------------------------------------------------------------------------------------------------------------
 | `*` (qualquer outra) | `<Navigate to="/" replace />` | Rota "coringa" — qualquer URL não mapeada redireciona para `/`, que por sua vez decide para onde mandar o usuário |
+-----------------------------------------------------------------------------------------------------------------
 
-## Resumo do fluxo
+* Resumo do fluxo
 
 1. Usuário acessa qualquer URL desconhecida → cai na rota `*` → vai para `/`
 2. Em `/`, o componente `Root` verifica autenticação e manda para `/login` ou `/dashboard`
